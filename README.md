@@ -1,9 +1,9 @@
 ## I have plan to develop Medical_writer_AI in 50 days 
 
 this is the project directory 
-mkdir medical write_AI
-cd medical write_AI
-python -m venv venv
+## mkdir medical write_AI
+## cd medical write_AI
+## python -m venv venv
 ## for Windows
 venv/scripts/activate
 ## for Mac or Linax
