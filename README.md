@@ -32,6 +32,15 @@ integration with pdf file and docx files
 
 ## Day-5 
 created chunking file 
+## Recommended initial configuration
+## Setting	Value
+## Target chunk size	500 tokens
+## Maximum chunk size	650 tokens
+## Minimum chunk size	80 tokens
+## Overlap	75 tokens
+## Splitting priority	Section → paragraph → sentence
+## Metadata	Document ID, section, page
+
 ##  processing
 Section detection → sentence-aware splitting → chunk overlap → token counting
 ## output
