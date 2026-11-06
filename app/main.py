@@ -13,6 +13,7 @@ from app.api.documents import router as document_router
 from app.api.chunks import router as chunks_router
 from app.api.embeddings import router as embeddings_router
 from app.api.search import router as search_router
+from app.api.rag import router as rag_router
 
 setup_logging()
 
@@ -63,7 +64,10 @@ app.include_router(
     document_router,
     prefix=settings.API_PREFIX,
 )
-
+app.include_router(
+    rag_router,
+    prefix=settings.API_PREFIX,
+)
 app.include_router(
     chunks_router,
     prefix=settings.API_PREFIX,
