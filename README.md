@@ -66,4 +66,40 @@ an embedding is numerical representation of text it allows a complete to compare
 ## Can run locally.
 ## Suitable for an initial retrieval prototype.
 ## Day-7 
-created RAG 
+## created RAG 
+Understand today's architecture
+## 1. User question
+## "What were the primary efficacy outcomes?"
+## 2. Query preprocessing
+## Validate and normalize the question
+## 3. Semantic retrieval
+## Generate query embedding → Search Qdrant → Retrieve top 10
+## 4. Reranking
+## Reorder candidates by query-document relevance
+## 5. Context assembly
+## Select relevant chunks, deduplicate, preserve citations
+## 6. Evidence package
+## Source document + section + page + exact supporting text
+
+What is reranking?
+retrieved chunks using vector similarity. However, the closest embedding is not necessarily the most useful passage for a particular question.
+Reranking evaluates the relationship between the question and each retrieved passage more directly.
+## Stage	Purpose	Example
+Retrieval 	        Find candidate passages quickly 	         Top 10 chunks
+Reranking 	       Prioritize the most relevant candidates 	   Top 5 chunks
+Context assembly	 Prepare evidence for the LLM	               Top 3–5 chunks
+
+For example, a query about primary efficacy outcomes may initially retrieve both the Methods and Results sections. A reranker should prioritize the passage reporting the actual outcome results.
+
+Today we will use a cross-encoder reranker. It evaluates a question and passage together, rather than embedding them independently.
+## Configure today's retrieval settings
+Start with these values and tune them using your own medical literature test set.
+## Parameter	                      Initial value
+Initial retrieval	                   15 chunks
+Reranked results	                    5 chunks
+Context limit	                      3,000 tokens
+Minimum vector score	                 0.30
+Reranker	                          BGE Reranker Base
+Embedding model	                    BGE Small EN v1.5
+
+The minimum vector score is an experimental filter, not a universal relevance threshold. We will need to calibrate it with real queries.
