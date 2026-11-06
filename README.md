@@ -47,6 +47,23 @@ Section detection → sentence-aware splitting → chunk overlap → token count
 Structured chunks saved in PostgreSQL with source metadata
 ## Day-6 
 created Embedding 
+## Embedding generation
+Each chunk → Numerical vector
+          |
+Chroma DB vector database
+          |
+Store vectors + document metadata
+          |
+Semantic retrieval
+
+User question → Query embedding → Relevant evidence chunks
 an embedding is numerical representation of text it allows a complete to compare the meaning of text rather then relaxing only on exact keyword match 
+
+## Select an embedding model
+## For today's local development, use BAAI/bge-small-en-v1.5.
+## English-language embedding model.
+## 384-dimensional vectors.
+## Can run locally.
+## Suitable for an initial retrieval prototype.
 ## Day-7 
 created RAG 
