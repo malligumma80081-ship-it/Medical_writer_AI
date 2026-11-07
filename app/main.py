@@ -14,6 +14,8 @@ from app.api.chunks import router as chunks_router
 from app.api.embeddings import router as embeddings_router
 from app.api.search import router as search_router
 from app.api.rag import router as rag_router
+from app.api.summaries import router as summaries_router
+from app.api.chroma_indexing import router as chroma_router
 
 setup_logging()
 
@@ -70,6 +72,16 @@ app.include_router(
 )
 app.include_router(
     chunks_router,
+    prefix=settings.API_PREFIX,
+)
+
+app.include_router(
+    summaries_router,
+    prefix=settings.API_PREFIX,
+)
+
+app.include_router(
+    chroma_router,
     prefix=settings.API_PREFIX,
 )
 

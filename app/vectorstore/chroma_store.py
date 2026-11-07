@@ -37,6 +37,23 @@ class ChromaStore:
                 metadatas=cast(Any, metadatas),
             )
 
+    def upsert_chunks(
+        self,
+        ids: list[str],
+        embeddings: list[list[float]],
+        documents: list[str],
+        metadatas: list[dict[str, Any]],
+    ) -> None:
+        if not ids:
+            return
+
+        self.collection.upsert(
+            ids=ids,
+            documents=documents,
+            embeddings=cast(Any, embeddings),
+            metadatas=cast(Any, metadatas),
+        )
+
     def search(
         self,
         query_embedding: list[float],
@@ -50,13 +67,15 @@ class ChromaStore:
             include=["documents", "metadatas", "distances"],
         )
 
-        ids = result["ids"][0]
+        ids = result["ids"][0] if result.get("ids") else []
         document_results = result.get("documents") or []
         metadata_results = result.get("metadatas") or []
         distance_results = result.get("distances") or []
-        documents = document_results[0] or [] if document_results else []
-        metadatas = metadata_results[0] or [] if metadata_results else []
-        distances = distance_results[0] or [] if distance_results else []
+
+        documents = document_results[0] if document_results else []
+        metadatas = metadata_results[0] if metadata_results else []
+        distances = distance_results[0] if distance_results else []
+
         return [
             {
                 "id": chunk_id,
@@ -71,3 +90,7 @@ class ChromaStore:
                 distances,
             )
         ]
+# {
+#   "project_id": "1514b41f-204b-4c81-a2dd-bd99d9b958bf",
+#   "question": "sponsor"
+# }
