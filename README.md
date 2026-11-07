@@ -103,3 +103,25 @@ Reranker	                          BGE Reranker Base
 Embedding model	                    BGE Small EN v1.5
 
 The minimum vector score is an experimental filter, not a universal relevance threshold. We will need to calibrate it with real queries.
+
+## Day-8 created LLM with Ollama+Llama3.2
+## installing the ollama and llama 3.2
+## ollama pull llama3.2 ## for installing for system 
+## ollama list ## for checking version installed or not 
+## ollama run llama3.2 ## for running the mode purpose 
+
+Today's end-to-end workflow
+1. Medical writer asks a question
+"Summarize the primary efficacy and safety outcomes of this clinical study."
+              |
+2. ChromaDB retrieval
+Search the uploaded research document and retrieve relevant evidence chunks.
+              |
+3. Evidence preparation
+Preserve document ID, page number, section, and chunk ID.
+              |
+4. Ollama + Llama 3.2
+Generate a preliminary scientific summary using retrieved evidence only.
+             |
+5. Traceable output
+Summary + evidence references + unsupported-claim warnings + human review status.
