@@ -1,3 +1,4 @@
+import json
 import re
 from uuid import UUID
 
@@ -21,12 +22,19 @@ class SummaryPersistenceService:
     ):
 
         try:
+            summary_data = result["summary"]
+            generated_content = (
+                json.dumps(summary_data, ensure_ascii=False, indent=2)
+                if isinstance(summary_data, (dict, list))
+                else summary_data
+            )
+
             generation = Generation(
                 project_id=project_id,
                 created_by=user_id,
                 document_type="SCIENTIFIC_LITERATURE_SUMMARY",
                 prompt=result["question"],
-                generated_content=result["summary"],
+                generated_content=generated_content,
                 status="PENDING_REVIEW",
                 model_name=result["model"],
             )
@@ -40,12 +48,19 @@ class SummaryPersistenceService:
                 for source in result["sources"]
             }
 
-            cited_ids = set(
-                re.findall(
-                    r"\[(S\d+)\]",
-                    result["summary"],
-                )
-            )
+            cited_ids = set()
+            if isinstance(summary_data, dict):
+                finding_groups = [
+                    "primary_efficacy_outcomes",
+                    "secondary_outcomes",
+                    "safety_findings",
+                    "study_limitations",
+                ]
+                for group in finding_groups:
+                    for finding in summary_data.get(group, []):
+                        cited_ids.update(finding.get("citation_ids", []))
+            elif isinstance(summary_data, str):
+                cited_ids.update(re.findall(r"\[(S\d+)\]", summary_data))
 
             for citation_id in sorted(cited_ids):
                 source = valid_sources.get(citation_id)
@@ -88,4 +103,5 @@ class SummaryPersistenceService:
 
         except Exception:
             self.db.rollback()
+
             raise

@@ -11,10 +11,11 @@ class OllamaClient:
         self.model = model
         self.client = ollama.Client(host=host)
 
-    def generate(
+    def generate_structured(
         self,
         system_prompt: str,
         user_prompt: str,
+        output_schema: dict,
     ) -> str:
 
         response = self.client.chat(
@@ -29,6 +30,7 @@ class OllamaClient:
                     "content": user_prompt,
                 },
             ],
+            format=output_schema,
             options={
                 "temperature": 0.1,
             },
