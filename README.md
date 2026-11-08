@@ -125,3 +125,33 @@ Generate a preliminary scientific summary using retrieved evidence only.
              |
 5. Traceable output
 Summary + evidence references + unsupported-claim warnings + human review status.
+
+## Day-9 Prompts Engineering + Structured AI Output
+Today's architecture
+Medical writer's request
+"Prepare a structured summary of the clinical trial."
+         |
+Prompt template selection
+Clinical trial / efficacy / safety / literature review
+          |
+RAG evidence context
+ChromaDB → relevant evidence → source identifiers
+         |
+Prompt engineering
+System instructions + task instructions + evidence
+         |
+Ollama + Llama 3.2
+Generate structured JSON output
+         |
+Validation and review
+Pydantic validation → citation checks → pending human review
+
+## Zero-shot prompting	Give instructions without examples	Summarize study outcomes
+## Few-shot prompting	Give examples of desired output	Show a sample efficacy summary
+## Role prompting	Define the model's task identity	Scientific writing assistant
+## Context prompting	Supply relevant source information	Retrieved clinical trial passages
+## Chain-of-thought alternatives	Ask for structured evidence and reasoning summaries without exposing hidden reasoning	Evidence, finding, limitation
+## Constrained output	Restrict output format	Valid JSON
+## Prompt versioning	Track prompt changes	medical_summary_v1
+
+## Important: Do not ask the model to reveal private chain-of-thought. Ask it for concise evidence, calculations where applicable, and a brief explanation that can be checked by a reviewer.
