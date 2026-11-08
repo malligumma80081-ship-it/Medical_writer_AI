@@ -16,6 +16,7 @@ from app.api.search import router as search_router
 from app.api.rag import router as rag_router
 from app.api.summaries import router as summaries_router
 from app.api.chroma_indexing import router as chroma_router
+from app.api.verification import router as verification_router
 
 setup_logging()
 
@@ -82,6 +83,11 @@ app.include_router(
 
 app.include_router(
     chroma_router,
+    prefix=settings.API_PREFIX,
+)
+
+app.include_router(
+    verification_router,
     prefix=settings.API_PREFIX,
 )
 

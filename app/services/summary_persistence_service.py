@@ -32,11 +32,17 @@ class SummaryPersistenceService:
             generation = Generation(
                 project_id=project_id,
                 created_by=user_id,
-                document_type="SCIENTIFIC_LITERATURE_SUMMARY",
+                document_type=result.get(
+                    "document_type",
+                    "SCIENTIFIC_LITERATURE_SUMMARY",
+                ),
                 prompt=result["question"],
                 generated_content=generated_content,
                 status="PENDING_REVIEW",
                 model_name=result["model"],
+                evidence_snapshot={
+                    "sources": result["sources"],
+                },
             )
 
             self.db.add(generation)

@@ -159,6 +159,11 @@ def generate_summary(
 @router.post(
     "/generate-structured",
     status_code=status.HTTP_200_OK,
+    description=(
+        "Returns a generation_id. Copy it into "
+        "POST /api/v1/verification/{generation_id} "
+        "to verify the generated summary."
+    ),
 )
 def generate_structured_summary(
     request: StructuredSummaryRequest,
@@ -181,7 +186,15 @@ def generate_structured_summary(
             document_type=request.document_type,
         )
 
+        persistence = SummaryPersistenceService(db)
+        generation = persistence.save_summary(
+            result=result,
+            project_id=request.project_id,
+            user_id=current_user.id,
+        )
+
         return {
+            "generation_id": str(generation.id),
             "project_id": str(request.project_id),
             "document_type": request.document_type,
             "result": result,

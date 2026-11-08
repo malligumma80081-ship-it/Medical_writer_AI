@@ -1,17 +1,25 @@
 import uuid
 
 from datetime import datetime, timezone
+from typing import TYPE_CHECKING
 
 from sqlalchemy import (
-    String,
-    Text,
+    JSON,
     DateTime,
     ForeignKey,
+    String,
+    Text,
     Uuid,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
+
+if TYPE_CHECKING:
+    from app.models.citation import Citation
+    from app.models.project import Project
+    from app.models.review import Review
+    from app.models.user import User
 
 
 class Generation(Base):
@@ -66,6 +74,12 @@ class Generation(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    evidence_snapshot: Mapped[dict] = mapped_column(
+        JSON,
+        default=dict,
         nullable=False,
     )
 

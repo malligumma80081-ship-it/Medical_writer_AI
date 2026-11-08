@@ -7,6 +7,8 @@ from app.models.citation import Citation
 from app.models.review import Review
 from app.models.audit_log import AuditLog
 from app.models.auth_session import AuthSession
+from app.models.claim_verification import ClaimVerification
+
 __all__ = [
     "User",
     "Project",
@@ -16,5 +18,6 @@ __all__ = [
     "Citation",
     "Review",
     "AuditLog",
-    "AuthSession"
+    "AuthSession",
+    "ClaimVerification",
 ]

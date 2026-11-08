@@ -11,6 +11,31 @@ class OllamaClient:
         self.model = model
         self.client = ollama.Client(host=host)
 
+    def generate(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+    ) -> str:
+
+        response = self.client.chat(
+            model=self.model,
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_prompt,
+                },
+                {
+                    "role": "user",
+                    "content": user_prompt,
+                },
+            ],
+            options={
+                "temperature": 0.1,
+            },
+        )
+
+        return response["message"]["content"]
+
     def generate_structured(
         self,
         system_prompt: str,
