@@ -155,3 +155,27 @@ Pydantic validation → citation checks → pending human review
 ## Prompt versioning	Track prompt changes	medical_summary_v1
 
 ## Important: Do not ask the model to reveal private chain-of-thought. Ask it for concise evidence, calculations where applicable, and a brief explanation that can be checked by a reviewer.
+## Day-10 Verification Engine
+app/
+  verification/
+    __init__.py
+    claim_extractor.py
+    evidence_matcher.py
+    numerical_validator.py
+    claim_verifier.py
+    verification_service.py
+
+  schemas/
+    verification.py
+
+  api/
+    verification.py
+
+  models/
+    claim_verification.py
+
+tests/
+  unit/
+    test_claim_extractor.py
+    test_numerical_validator.py
+    test_claim_verifier.py
